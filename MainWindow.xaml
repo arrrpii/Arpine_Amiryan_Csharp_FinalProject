@@ -1,0 +1,182 @@
+﻿<Window x:Class="projectC.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:projectC"
+        mc:Ignorable="d"
+        Title="Northwind DataBase" Height="600" Width="1000" Loaded="Window_Loaded" Background="#FF969494">
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="productViewSource" />
+        <CollectionViewSource x:Key="productViewSourceother" 
+                      Source="{Binding Products, Source={StaticResource productViewSource}}"/>
+        <CollectionViewSource x:Key="supplierViewSource" />
+        <CollectionViewSource x:Key="supplierViewSourceother" 
+                      Source="{Binding Suppliers, Source={StaticResource supplierViewSource}}"/>
+        <CollectionViewSource x:Key="orderDetailsViewSource" />
+        <CollectionViewSource x:Key="orderDetailsViewSourceeother" 
+              Source="{Binding Suppliers, Source={StaticResource orderDetailsViewSource}}"/>
+    </Window.Resources>
+
+
+    <TabControl>
+        <TabItem Header="Products">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="547.079"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="121*"/>
+                    <ColumnDefinition Width="19"/>
+                    <ColumnDefinition Width="19*"/>
+                    <ColumnDefinition Width="0*"/>
+                    <ColumnDefinition Width="820*"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Background="#FFE5E5E5" x:Name="productDataGrid" AutoGenerateColumns="False" 
+                                    EnableRowVirtualization="True" 
+                                    ItemsSource="{Binding Source={StaticResource productViewSource}}" 
+                                    Margin="10,91,27,35" RowDetailsVisibilityMode="VisibleWhenSelected"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding ProductID}"
+                                            Header="Product ID" Width="105"
+                                            IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding ProductName}" Header="Product Name" 
+                                            Width="105"/>
+                        <DataGridTextColumn Binding="{Binding SupplierID}" Header="Supplier ID" 
+                                            Width="105"/>
+                        <DataGridTextColumn Binding="{Binding CategoryID}" Header="Category ID" 
+                                            Width="105"/>
+                        <DataGridTextColumn Binding="{Binding UnitPrice}" Header="Unit Price" 
+                                            Width="105"/>
+                        <DataGridTextColumn Binding="{Binding UnitsInStock}" Header="Units in stock" 
+                                            Width="105"/>
+                        <DataGridTextColumn Binding="{Binding UnitsOnOrder}" Header="Units on order" 
+                                            Width="105"/>
+                        <DataGridTextColumn Binding="{Binding ReorderLevel}" Header="Reorder level" 
+                                            Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Discontinued}" Header="Discontinued" 
+                                            Width="105"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Grid.Column="4" Content="Search" HorizontalAlignment="Left" Margin="276,41,0,0" Grid.Row="1" VerticalAlignment="Top" Height="20" Width="100" Click="Button_Click_Search" Grid.ColumnSpan="2"/>
+                
+                <ComboBox x:Name="searchField"  Grid.Column="1"  Grid.Row="1"  HorizontalAlignment="Left" Margin="19,40,0,0" VerticalAlignment="Top" Width="122" Grid.ColumnSpan="3" ItemsSource="{Binding Fields}" SelectedItem="{Binding SelectedField}" Height="22">
+                    <ComboBoxItem Content="Product ID"/>
+                    <ComboBoxItem Content="Product Name"/>
+                    <ComboBoxItem Content="Supplier ID"/>
+                    <ComboBoxItem Content="Category ID"/>
+                </ComboBox>
+                <TextBox x:Name="searchText" Grid.Column="4" HorizontalAlignment="Left" Margin="0,41,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="255" Height="21" Grid.ColumnSpan="2"/>
+                <Label Grid.Column="1" Content="Choose search field" HorizontalAlignment="Left" Margin="19,14,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="120" Height="26"/>
+                <Button Grid.Column="4" Content="Add product" HorizontalAlignment="Left" Margin="575,40,0,0" Grid.Row="1" VerticalAlignment="Top" Height="20" Width="100" Click="Button_Click_Add" Grid.ColumnSpan="2"/>
+                <Button Grid.Column="5" Content="Cancle" HorizontalAlignment="Left" Margin="693,40,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100" Height="20" Click="Button_Click_Cancle_Product"/>
+
+            </Grid>
+
+        </TabItem>
+
+
+        <TabItem Header="Suppliers">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="547.079"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="151*"/>
+                    <ColumnDefinition Width="828*"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Background="#FFE5E5E5" x:Name="supplierDataGrid" AutoGenerateColumns="False" 
+                        EnableRowVirtualization="True" 
+                        ItemsSource="{Binding Source={StaticResource supplierViewSource}}" 
+                        Margin="23,91,32,35" RowDetailsVisibilityMode="VisibleWhenSelected"  Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding SupplierID}"
+                                Header="Supplier Id" Width="SizeToHeader"
+                                IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding CompanyName}" Header="Company Name" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding ContactName}" Header="Contact Name" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding ContactTitle}" Header="Contact Title" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Address}" Header="Address" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding City}" Header="City" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Region}" Header="Region" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding PostalCode}" Header="Postal Code" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Country}" Header="Country" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Phone}" Header="Home" 
+                                Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Fax}" Header="Fax" 
+                                Width="105"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <ComboBox x:Name="searchcountry" Grid.Column="1" HorizontalAlignment="Left" Margin="23,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="173" Height="20" Grid.ColumnSpan="2">
+                    <ComboBoxItem Content="Australia"/>
+                    <ComboBoxItem Content="Brazil"/>
+                    <ComboBoxItem Content="Canada"/>
+                    <ComboBoxItem Content="Denmark"/>
+                    <ComboBoxItem Content="Finland"/>
+                    <ComboBoxItem Content="France"/>
+                    <ComboBoxItem Content="Germany"/>
+                    <ComboBoxItem Content="Italy"/>
+                    <ComboBoxItem Content="Japan"/>
+                    <ComboBoxItem Content="Netherlands"/>
+                    <ComboBoxItem Content="Norway"/>
+                    <ComboBoxItem Content="Singapore"/>
+                    <ComboBoxItem Content="Spain"/>
+                    <ComboBoxItem Content="Sweden"/>
+                    <ComboBoxItem Content="UK"/>
+                    <ComboBoxItem Content="USA"/>
+                </ComboBox>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="23,23,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Select the supplier's country" VerticalAlignment="Top" FontSize="14" Grid.ColumnSpan="2" Width="187"/>
+                <Button Grid.Column="2" Content="Search" HorizontalAlignment="Left" Margin="75,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100" Height="20" Click="Button_Click"/>
+                <Button Grid.Column="2" Content="Cancle" HorizontalAlignment="Left" Margin="696,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100" Height="20" Click="Button_Click_Cancle_Supplier"/>
+            </Grid>
+        </TabItem>
+
+
+        <TabItem Header="Order Details">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="83*"/>
+                    <ColumnDefinition Width="911*"/>
+                </Grid.ColumnDefinitions>
+
+                <DataGrid Background="#FFE5E5E5" x:Name="orderDataGrid" AutoGenerateColumns="False" 
+                          EnableRowVirtualization="True" 
+                          ItemsSource="{Binding Source={StaticResource orderDetailsViewSource}}" 
+                          Margin="20,91,35,35" RowDetailsVisibilityMode="VisibleWhenSelected" Grid.ColumnSpan="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding OrderID}"
+                    Header="Order Id" Width="105"
+                    IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding ProductID}" Header="Product ID" 
+                    Width="105"/>
+                        <DataGridTextColumn Binding="{Binding UnitPrice}" Header="Unit Price" 
+                    Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Quantity" 
+                    Width="105"/>
+                        <DataGridTextColumn Binding="{Binding Discount}" Header="Discount" 
+                    Width="105"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                <TextBox x:Name="searchID"  HorizontalAlignment="Left" Margin="20,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="20" Grid.ColumnSpan="2"  />
+                <TextBlock HorizontalAlignment="Left" Margin="20,31,0,0" TextWrapping="Wrap" Text="Enter Product ID " VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                <Button Grid.Column="1" Content="Search" HorizontalAlignment="Left" Margin="83,56,0,0" VerticalAlignment="Top" Width="100" Height="20" Click="Button_Click_SearchID"/>
+                <Button Grid.Column="1" Content="Cancle" HorizontalAlignment="Left" Margin="776,46,0,0" VerticalAlignment="Top" Width="100" Height="20" Click="Button_Click_Cancle_Order"/>
+            </Grid>
+        </TabItem>
+    </TabControl>
+
+</Window>
